@@ -2342,8 +2342,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Vida0: 0
   estaAtacando: 0
-  speed: 1
-  angularSpeed: 120
+  speed: 0.5
+  angularSpeed: 80
   "da\xF1o": 25
   mirando: 0
   sumarPuntos: 0

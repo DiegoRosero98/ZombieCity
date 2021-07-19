@@ -7,7 +7,7 @@ public class LogicaJugador : MonoBehaviour
 {
     public Vida vida;
     public bool Vida0 = false;
-    [SerializeField] private Animator animadorPerder;
+    //[SerializeField] private Animator animadorPerder;
     public Puntaje puntaje;
     
     void Start()
@@ -29,7 +29,7 @@ public class LogicaJugador : MonoBehaviour
         if(vida.valor <= 0)
         {
             AudioListener.volume = 0f;
-            animadorPerder.SetTrigger("Mostrar");
+            //animadorPerder.SetTrigger("Mostrar");
             Vida0 = true;   
             Invoke("ReiniciarJuego", 2f);         
         }
@@ -44,9 +44,9 @@ public class LogicaJugador : MonoBehaviour
     }
 
     void RevisarPuntaje(){
-        /*float valor1 = puntaje.valor;
-        if(valor1 == 200){
+        float valor1 = puntaje.valor;
+        if(valor1 == 10000){
             Invoke("ReiniciarJuego", 3f);
-        }*/
+        }
     }
 }

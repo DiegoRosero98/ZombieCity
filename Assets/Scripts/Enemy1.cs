@@ -1,20 +1,53 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
+using UnityEngine.SceneManagement;
 
 public class Enemy1 : MonoBehaviour
 {
     public int rutina;
     public float cronometro;
-    public Animator ani;
+    private Animator ani;
     public Quaternion angulo;
     public float grado;
-    public GameObject target;
+    private GameObject target;
+    private NavMeshAgent agente;
     public bool atacando;
+    private Vida vida;
+    private Collider collider1;
+    private Vida vidaJugador;
+    private LogicaJugador logicaJugador;
+    public bool estaAtacando = false;
+    public float speed = 0.5f;
+    public float angularSpeed = 80;
+    public float daño = 1;
+    public bool Vida0 = false;
+    public bool mirando;
+    public bool sumarPuntos = false;
+    public GameObject puntajePantalla;
+    public AudioSource deathSoundBoss;
     void Start()
     {
-        ani = GetComponent<Animator>();
         target = GameObject.Find("Player");
+        vidaJugador = target.GetComponent<Vida>();
+        if(vidaJugador== null)
+        {
+            throw new System.Exception("El objeto Jugador no tiene componente Vida");
+        }
+
+        logicaJugador = target.GetComponent<LogicaJugador>();
+
+        if (logicaJugador == null)
+        {
+            throw new System.Exception("El objeto Jugador no tiene componente LogicaJugador");
+        }
+
+        //agente = GetComponent<NavMeshAgent>();
+        vida = GetComponent<Vida>();
+        ani = GetComponent<Animator>();
+        collider1 = GetComponent<Collider>();
+        
     }
 
     public void Comportamiento_Enemigo()
@@ -65,8 +98,28 @@ public class Enemy1 : MonoBehaviour
                 ani.SetBool("walk", false);
                 ani.SetBool("run", false);
 
-                ani.SetBool("attack", true);
-                atacando = true;
+                if(vidaJugador.valor > 0)
+                {
+                    ani.SetBool("attack", true);
+                    atacando = true;
+                    vidaJugador.RecibirDañoJefe(daño);                  
+                }
+                if(vidaJugador.valor <= 0)
+                {
+                    atacando = false;
+                    ani.SetBool("walk", true);
+                }
+            }
+        }
+        if(vida.valor <= 0)
+        {
+            deathSoundBoss.Play();
+            Destroy(gameObject, 0.5f);
+            sumarPuntos = true;
+            if(sumarPuntos)
+            {
+                puntajePantalla.GetComponent<Puntaje>().valor += 300;
+                sumarPuntos = false;
             }
         }
     }
@@ -81,4 +134,5 @@ public class Enemy1 : MonoBehaviour
     {
         Comportamiento_Enemigo();
     }
+
 }

@@ -15,11 +15,12 @@ public class LogicaEnemigo : MonoBehaviour {
     public bool estaAtacando = false;
     public float speed = 0.5f;
     public float angularSpeed = 80;
-    public float daño = 25;
+    public float daño = 75;
    
     public bool mirando;
     public bool sumarPuntos = false;
     public GameObject puntajePantalla;
+    public AudioSource deathSound;
 
 
 	// Use this for initialization
@@ -76,12 +77,13 @@ public class LogicaEnemigo : MonoBehaviour {
             sumarPuntos = true;
             if(sumarPuntos)
             {
-                puntajePantalla.GetComponent<Puntaje>().valor += 20;
+                puntajePantalla.GetComponent<Puntaje>().valor += 100;
                 sumarPuntos = false;
             }
             Vida0 = true;
             agente.isStopped = true;
             collider.enabled = false;
+            deathSound.Play();
             animator.CrossFadeInFixedTime("Vida0", 0.1f);
             Destroy(gameObject, 3f);
         }

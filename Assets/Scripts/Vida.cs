@@ -24,7 +24,7 @@ public class Vida : MonoBehaviour
         valor -= daño;
         dañoTotal = daño;
 
-        if(valor>=0)
+        if(valor >= 0)
         {
             MostrarTextoFlotante();
         }
@@ -37,7 +37,31 @@ public class Vida : MonoBehaviour
         
     }
 
-    void MostrarTextoFlotante()
+    public void RecibirDañoJefe(float daño)
+    {
+        daño *= multiplicadorDeDaño;
+        if(padreRef != null)
+        {
+            padreRef.RecibirDaño(daño);
+            return;
+        }
+
+        valor -= daño;
+        dañoTotal = daño;
+
+        if(valor>=0)
+        {
+            MostrarTextoFlotante();
+        }
+
+        if(valor < 0)
+        {
+            valor = 0;
+            MostrarTextoFlotante();
+        }
+    }
+
+    public void MostrarTextoFlotante()
     {
         var go = Instantiate(textoFlotantePrefab, transform.position, Quaternion.identity, transform);
         go.GetComponent<TextMesh>().text = dañoTotal.ToString();
